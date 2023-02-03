@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.client.presenter;
 import java.util.List;
 
 import edu.byu.cs.tweeter.client.model.services.FollowService;
+import edu.byu.cs.tweeter.client.model.services.UserService;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class GetFollowingPresenter {
@@ -13,19 +14,24 @@ public class GetFollowingPresenter {
     private boolean hasMorePages;
     private boolean isLoading = false;
 
+
     public interface View{
         void setLoadingFooter(boolean value);
         void displayMessage(String message);
         void addMoreItems(List<User> followees);
+
+        void addUser(User user);
     }
 
     private final View view;
 
     private final FollowService followService;
+    private final UserService userService;
 
     public GetFollowingPresenter(View view){
         this.view = view;
         this.followService = new FollowService();
+        this.userService = new UserService();
     }
 
     public void loadMoreItems(User user) {
@@ -75,6 +81,28 @@ public class GetFollowingPresenter {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.addMoreItems(followees);
+        }
+    }
+
+    public void getUserFromService(String userAliasString) {
+        userService.getUser(userAliasString, new GetUserObserver());
+    }
+
+    private class GetUserObserver implements UserService.Observer{
+
+        @Override
+        public void handleSuccess(User user) {
+            view.addUser(user);
+        }
+
+        @Override
+        public void handleFailure(String errorMessage) {
+            view.displayMessage(errorMessage);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage("Failed to get user's profile because of exception: " + ex.getMessage());
         }
     }
 }
