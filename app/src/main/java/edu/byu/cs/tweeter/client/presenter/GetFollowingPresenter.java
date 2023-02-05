@@ -38,7 +38,7 @@ public class GetFollowingPresenter {
         if (!isLoading) {
             isLoading = true;
             view.setLoadingFooter(true);
-            followService.loadMoreItems(user, PAGE_SIZE, lastFollowee, new GetFollowingObserver());
+            followService.getFollowees(user, PAGE_SIZE, lastFollowee, new GetFollowingObserver());
         }
     }
 
@@ -58,7 +58,7 @@ public class GetFollowingPresenter {
         isLoading = loading;
     }
 
-    private class GetFollowingObserver implements FollowService.Observer{
+    private class GetFollowingObserver implements FollowService.GetFollowingObserver {
 
         @Override
         public void displayError(String message) {
@@ -88,7 +88,7 @@ public class GetFollowingPresenter {
         userService.getUser(userAliasString, new GetUserObserver());
     }
 
-    private class GetUserObserver implements UserService.Observer{
+    private class GetUserObserver implements UserService.GetUserObserver {
 
         @Override
         public void handleSuccess(User user) {

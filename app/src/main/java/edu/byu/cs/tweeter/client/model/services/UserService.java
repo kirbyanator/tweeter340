@@ -1,10 +1,8 @@
 package edu.byu.cs.tweeter.client.model.services;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -13,31 +11,30 @@ import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetUserTask;
-import edu.byu.cs.tweeter.client.presenter.GetFollowingPresenter;
-import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class UserService {
-    public interface Observer{
+    public interface GetUserObserver {
         void handleSuccess(User user);
 
         void handleFailure(String errorMessage);
 
         void handleException(Exception ex);
     }
-    public void getUser(String userAliasString, Observer observer){
+    public void getUser(String userAliasString, GetUserObserver observer){
         GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(),
                 userAliasString, new GetUserHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(getUserTask);
     }
+
     /**
      * Message handler (i.e., observer) for GetUserTask.
      */
     private class GetUserHandler extends Handler {
-        private Observer observer;
+        private GetUserObserver observer;
 
-        public GetUserHandler(Observer observer) {
+        public GetUserHandler(GetUserObserver observer) {
             super(Looper.getMainLooper());
             this.observer = observer;
         }
