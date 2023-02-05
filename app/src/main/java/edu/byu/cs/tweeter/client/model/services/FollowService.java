@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.client.model.services;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -66,7 +65,7 @@ public class FollowService {
 
     public interface GetFollowerObserver{
 
-        void addFollowers(List<User> followers, boolean hasMorePages);
+        void handleSuccess(List<User> followers, boolean hasMorePages);
 
         void displayError(String errorMessage);
 
@@ -98,7 +97,7 @@ public class FollowService {
             if (success) {
                 List<User> followers = (List<User>) msg.getData().getSerializable(GetFollowersTask.FOLLOWERS_KEY);
                 boolean hasMorePages = msg.getData().getBoolean(GetFollowersTask.MORE_PAGES_KEY);
-                observer.addFollowers(followers, hasMorePages);
+                observer.handleSuccess(followers, hasMorePages);
             } else if (msg.getData().containsKey(GetFollowersTask.MESSAGE_KEY)) {
                 String message = msg.getData().getString(GetFollowersTask.MESSAGE_KEY);
                 observer.displayError("Failed to get followers: " + message);

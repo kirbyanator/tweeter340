@@ -63,7 +63,7 @@ public class GetFollowersPresenter {
     private class GetFollowerObserver implements FollowService.GetFollowerObserver{
 
         @Override
-        public void addFollowers(List<User> followers, boolean hasMorePages) {
+        public void handleSuccess(List<User> followers, boolean hasMorePages) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
 
