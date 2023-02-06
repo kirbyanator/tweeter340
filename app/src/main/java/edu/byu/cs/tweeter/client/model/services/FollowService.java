@@ -15,11 +15,14 @@ import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.FollowTask;
+import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowersCountTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowersTask;
+import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowingCountTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowingTask;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.IsFollowerTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.UnfollowTask;
+import edu.byu.cs.tweeter.client.presenter.MainActivityPresenter;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -248,6 +251,92 @@ public class FollowService {
             }
 
             observer.enableFollowButton(true);
+        }
+    }
+
+    public interface FollowerCountObserver{
+
+        void handleSuccess(int count);
+
+        void handleFailure(String s);
+
+        void handleException(Exception ex);
+    }
+
+    public void getFollowerCount(User user, FollowerCountObserver observer) {
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        GetFollowersCountTask followersCountTask = new GetFollowersCountTask(Cache.getInstance().getCurrUserAuthToken(),
+                user, new GetFollowersCountHandler(observer));
+        executor.execute(followersCountTask);
+    }
+
+    // GetFollowersCountHandler
+
+    private class GetFollowersCountHandler extends Handler {
+
+        private FollowerCountObserver observer;
+
+        public GetFollowersCountHandler(FollowerCountObserver observer) {
+            super(Looper.getMainLooper());
+            this.observer = observer;
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            boolean success = msg.getData().getBoolean(GetFollowersCountTask.SUCCESS_KEY);
+            if (success) {
+                int count = msg.getData().getInt(GetFollowersCountTask.COUNT_KEY);
+                observer.handleSuccess(count);
+            } else if (msg.getData().containsKey(GetFollowersCountTask.MESSAGE_KEY)) {
+                String message = msg.getData().getString(GetFollowersCountTask.MESSAGE_KEY);
+                observer.handleFailure("Failed to get followers count: " + message);
+            } else if (msg.getData().containsKey(GetFollowersCountTask.EXCEPTION_KEY)) {
+                Exception ex = (Exception) msg.getData().getSerializable(GetFollowersCountTask.EXCEPTION_KEY);
+                observer.handleException(ex);
+            }
+        }
+    }
+
+    public interface FollowingCountObserver{
+
+        void handleSuccess(int count);
+
+        void handleFailure(String s);
+
+        void handleException(Exception ex);
+    }
+
+    public void getFollowingCount(User user, FollowingCountObserver observer){
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        GetFollowingCountTask followingCountTask = new GetFollowingCountTask(Cache.getInstance().getCurrUserAuthToken(),
+                user, new GetFollowingCountHandler(observer));
+        executor.execute(followingCountTask);
+    }
+
+    // GetFollowingCountHandler
+
+    private class GetFollowingCountHandler extends Handler {
+
+        private FollowingCountObserver observer;
+
+        public GetFollowingCountHandler(FollowingCountObserver observer) {
+            super(Looper.getMainLooper());
+            this.observer = observer;
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            boolean success = msg.getData().getBoolean(GetFollowingCountTask.SUCCESS_KEY);
+            if (success) {
+                int count = msg.getData().getInt(GetFollowingCountTask.COUNT_KEY);
+                observer.handleSuccess(count);
+            } else if (msg.getData().containsKey(GetFollowingCountTask.MESSAGE_KEY)) {
+                String message = msg.getData().getString(GetFollowingCountTask.MESSAGE_KEY);
+                observer.handleFailure("Failed to get following count: " + message);
+            } else if (msg.getData().containsKey(GetFollowingCountTask.EXCEPTION_KEY)) {
+                Exception ex = (Exception) msg.getData().getSerializable(GetFollowingCountTask.EXCEPTION_KEY);
+                observer.handleException(ex);
+            }
         }
     }
 }

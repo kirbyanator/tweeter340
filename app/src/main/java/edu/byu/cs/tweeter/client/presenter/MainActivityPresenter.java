@@ -1,11 +1,15 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import java.util.List;
+
 import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.client.model.services.StatusService;
 import edu.byu.cs.tweeter.client.model.services.UserService;
+import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainActivityPresenter {
+    
 
     public interface View {
 
@@ -13,13 +17,17 @@ public class MainActivityPresenter {
 
         void displayMessage(String s);
 
-        void followSuccess(boolean isFollower);
-
         void updateSelectedUserFollowingAndFollowers();
 
         void enableFollowButton(boolean b);
 
         void logoutUser();
+
+        void postSuccessful();
+
+        void setFollowersCount(int count);
+
+        void setFollowingCount(int count);
     }
 
     private View view;
@@ -42,7 +50,8 @@ public class MainActivityPresenter {
 
         @Override
         public void handleSuccess(boolean isFollower) {
-            view.followSuccess(isFollower);
+
+            view.updateFollowButton(!isFollower);
         }
 
         @Override
@@ -76,7 +85,7 @@ public class MainActivityPresenter {
 
         @Override
         public void handleException(Exception ex) {
-            view.displayMessage("Failed to determine following relationship because of exception: " + ex.getMessage());
+            view.displayMessage("Failed to unfollow because of exception: " + ex.getMessage());
         }
 
         @Override
@@ -136,6 +145,70 @@ public class MainActivityPresenter {
         }
     }
 
+    public void postStatus(Status newStatus) {
+        statusService.postStatus(newStatus, new PostStatusObserver());
+    }
 
+    private class PostStatusObserver implements StatusService.PostStatusObserver{
+
+        @Override
+        public void handleSuccess() {
+            view.postSuccessful();
+        }
+
+        @Override
+        public void handleFailure(String s) {
+            view.displayMessage(s);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage("Failed to post status because of exception: " + ex.getMessage());
+        }
+    }
+
+    public void getFollowersCount(User user){
+        followService.getFollowerCount(user, new FollowerCountObserver());
+    }
+
+    private class FollowerCountObserver implements FollowService.FollowerCountObserver{
+
+        @Override
+        public void handleSuccess(int count) {
+            view.setFollowersCount(count);
+        }
+
+        @Override
+        public void handleFailure(String s) {
+            view.displayMessage(s);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage("Failed to get followers count because of exception: " + ex.getMessage());
+        }
+    }
+    
+    public void getFollowingCount(User selectedUser) {
+        followService.getFollowingCount(selectedUser, new FollowingCountObserver());
+    }
+    
+    private class FollowingCountObserver implements FollowService.FollowingCountObserver{
+
+        @Override
+        public void handleSuccess(int count) {
+            view.setFollowingCount(count);
+        }
+
+        @Override
+        public void handleFailure(String s) {
+            view.displayMessage(s);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage("Failed to get following count because of exception: " + ex.getMessage());
+        }
+    }
 
 }
