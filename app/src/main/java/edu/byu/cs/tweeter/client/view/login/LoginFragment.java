@@ -38,7 +38,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
     private EditText password;
     private TextView errorView;
 
-    private LoginPresenter presenter;
+    private LoginPresenter presenter = new LoginPresenter(this);
 
     /**
      * Creates an instance of the fragment and places the user and auth token in an arguments
@@ -56,8 +56,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        this.presenter = new LoginPresenter(this);
-
         alias = view.findViewById(R.id.loginUsername);
         password = view.findViewById(R.id.loginPassword);
         errorView = view.findViewById(R.id.loginError);
@@ -66,8 +64,13 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
 
             @Override
             public void onClick(View view) {
-                // Login and move to MainActivity.
-                presenter.logIn(alias.getText().toString(), password.getText().toString());
+                try {
+                    // Login and move to MainActivity.
+                    presenter.logIn(alias.getText().toString(), password.getText().toString());
+                }
+                catch(Exception e){
+                    errorView.setText(e.getMessage());
+                }
             }
         });
 
@@ -96,11 +99,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
     @Override
     public void displayMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void setErrorTextView(String message) {
-        errorView.setText(message);
     }
 
 

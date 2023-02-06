@@ -18,7 +18,6 @@ public class LoginPresenter {
 
         void displayMessage(String errorMessage);
 
-        void setErrorTextView(String message);
     }
 
     private View view;
@@ -31,13 +30,9 @@ public class LoginPresenter {
     }
 
     public void logIn(String aliasString, String passwordString) {
-        try {
-            validateLogin(aliasString, passwordString);
-            view.prepLoginText();
-            userService.loginUser(aliasString, passwordString, new LoginObserver());
-        } catch (Exception e) {
-            view.setErrorTextView(e.getMessage());
-        }
+        validateLogin(aliasString, passwordString);
+        view.prepLoginText();
+        userService.loginUser(aliasString, passwordString, new LoginObserver());
     }
 
     public void validateLogin(String aliasString, String passwordString) {
@@ -52,7 +47,7 @@ public class LoginPresenter {
         }
     }
 
-    private class LoginObserver implements UserService.LoginObserver{
+    public class LoginObserver implements UserService.LoginObserver{
 
         @Override
         public void handleSuccess(User loggedInUser) {

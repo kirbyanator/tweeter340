@@ -52,7 +52,7 @@ public class FollowersFragment extends Fragment implements GetFollowersPresenter
 
     private FollowersRecyclerViewAdapter followersRecyclerViewAdapter;
 
-    private GetFollowersPresenter presenter;
+    private GetFollowersPresenter presenter = new GetFollowersPresenter(this);
 
     /**
      * Creates an instance of the fragment and places the target user in an arguments
@@ -89,7 +89,6 @@ public class FollowersFragment extends Fragment implements GetFollowersPresenter
 
         followersRecyclerView.addOnScrollListener(new FollowRecyclerViewPaginationScrollListener(layoutManager));
 
-        presenter = new GetFollowersPresenter(this);
         presenter.loadMoreItems(user);
 
         return view;

@@ -48,7 +48,7 @@ public class FollowingFragment extends Fragment implements GetFollowingPresenter
 
     private FollowingRecyclerViewAdapter followingRecyclerViewAdapter;
 
-    private GetFollowingPresenter presenter;
+    private GetFollowingPresenter presenter = new GetFollowingPresenter(this);
 
     /**
      * Creates an instance of the fragment and places the target user in an arguments
@@ -84,7 +84,6 @@ public class FollowingFragment extends Fragment implements GetFollowingPresenter
 
         followingRecyclerView.addOnScrollListener(new FollowRecyclerViewPaginationScrollListener(layoutManager));
 
-        presenter = new GetFollowingPresenter(this);
         presenter.loadMoreItems(user);
 
         return view;
