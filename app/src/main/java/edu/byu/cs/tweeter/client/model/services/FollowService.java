@@ -1,11 +1,8 @@
 package edu.byu.cs.tweeter.client.model.services;
 
-import android.app.job.JobService;
-import android.app.job.JobServiceEngine;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -13,17 +10,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.FollowTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowersCountTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowersTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowingCountTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowingTask;
-import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.IsFollowerTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.UnfollowTask;
-import edu.byu.cs.tweeter.client.presenter.MainActivityPresenter;
-import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService {

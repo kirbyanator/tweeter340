@@ -1,11 +1,6 @@
 package edu.byu.cs.tweeter.client.presenter;
 
-import android.content.Intent;
-import android.widget.Toast;
-
-import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.UserService;
-import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginPresenter {

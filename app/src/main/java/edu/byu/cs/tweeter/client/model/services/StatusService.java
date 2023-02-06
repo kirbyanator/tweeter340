@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.client.model.services;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -15,10 +14,6 @@ import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFeedTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetStoryTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.PostStatusTask;
-import edu.byu.cs.tweeter.client.presenter.StoryPresenter;
-import edu.byu.cs.tweeter.client.view.main.MainActivity;
-import edu.byu.cs.tweeter.client.view.main.feed.FeedFragment;
-import edu.byu.cs.tweeter.client.view.main.story.StoryFragment;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 

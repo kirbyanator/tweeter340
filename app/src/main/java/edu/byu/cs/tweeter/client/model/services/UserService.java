@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.client.model.services;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -15,7 +14,6 @@ import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetUserTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.services.backgroundTask.RegisterTask;
-import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
