@@ -2,43 +2,45 @@ package edu.byu.cs.tweeter.client.presenter;
 
 import java.util.List;
 
-import edu.byu.cs.tweeter.client.model.services.FollowService;
+import edu.byu.cs.tweeter.client.model.services.StatusService;
 import edu.byu.cs.tweeter.client.model.services.UserService;
+import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class GetFollowingPresenter {
+public class FeedPresenter {
+
+    public interface View{
+
+        void addUser(User user);
+
+        void displayMessage(String errorMessage);
+
+        void setLoadingFooter(boolean isLoading);
+
+        void addMoreItems(List<Status> statuses);
+    }
+
+    private View view;
+    private StatusService statusService;
+    private UserService userService;
 
     private static final int PAGE_SIZE = 10;
 
-    private User lastFollowee;
+    private Status lastStatus;
     private boolean hasMorePages;
     private boolean isLoading = false;
 
-
-    public interface View{
-        void setLoadingFooter(boolean value);
-        void displayMessage(String message);
-        void addMoreItems(List<User> followees);
-
-        void addUser(User user);
-    }
-
-    private final View view;
-
-    private final FollowService followService;
-    private final UserService userService;
-
-    public GetFollowingPresenter(View view){
+    public FeedPresenter(View view){
         this.view = view;
-        this.followService = new FollowService();
         this.userService = new UserService();
+        this.statusService = new StatusService();
     }
 
     public void loadMoreItems(User user) {
         if (!isLoading) {
             isLoading = true;
             view.setLoadingFooter(true);
-            followService.getFollowees(user, PAGE_SIZE, lastFollowee, new GetFollowingObserver());
+            statusService.getFeed(user, PAGE_SIZE, lastStatus, new FeedObserver());
         }
     }
 
@@ -58,37 +60,38 @@ public class GetFollowingPresenter {
         isLoading = loading;
     }
 
-    private class GetFollowingObserver implements FollowService.GetFollowingObserver {
+    private class FeedObserver implements StatusService.FeedObserver {
 
         @Override
-        public void displayError(String message) {
+        public void handleError(String message) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.displayMessage(message);
         }
 
         @Override
-        public void displayException(Exception ex) {
+        public void handleException(Exception ex) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
-            view.displayMessage("Failed to get following because of exception: " + ex.getMessage());
+            view.displayMessage("Failed to get feed because of exception: " + ex.getMessage());
         }
 
         @Override
-        public void addFollowees(List<User> followees, boolean hasMorePages) {
-            lastFollowee = (followees.size() > 0) ? followees.get(followees.size() - 1) : null;
+        public void handleSuccess(List<Status> statuses, boolean hasMorePages) {
+            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() - 1) : null;
             setHasMorePages(hasMorePages);
             isLoading = false;
             view.setLoadingFooter(isLoading);
-            view.addMoreItems(followees);
+            view.addMoreItems(statuses);
         }
     }
 
-    public void getUserFromService(String userAliasString) {
-        userService.getUser(userAliasString, new GetUserObserver());
+
+    public void getUserFromService(String aliasName) {
+        userService.getUser(aliasName, new GetUserObserver());
     }
 
-    private class GetUserObserver implements UserService.GetUserObserver {
+    private class GetUserObserver implements UserService.UserObserver {
 
         @Override
         public void handleSuccess(User user) {
@@ -105,4 +108,5 @@ public class GetFollowingPresenter {
             view.displayMessage("Failed to get user's profile because of exception: " + ex.getMessage());
         }
     }
+
 }

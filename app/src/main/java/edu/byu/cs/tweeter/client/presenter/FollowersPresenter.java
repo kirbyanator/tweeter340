@@ -1,19 +1,12 @@
 package edu.byu.cs.tweeter.client.presenter;
 
-import android.widget.Toast;
-
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.client.model.services.UserService;
-import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetUserTask;
-import edu.byu.cs.tweeter.client.view.main.followers.FollowersFragment;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class GetFollowersPresenter {
+public class FollowersPresenter {
 
     public interface View{
         void setLoadingFooter(boolean value);
@@ -46,7 +39,7 @@ public class GetFollowersPresenter {
 
     private boolean hasMorePages;
 
-    public GetFollowersPresenter(View view) {
+    public FollowersPresenter(View view) {
         this.view = view;
         this.followService = new FollowService();
         this.userService = new UserService();
@@ -60,7 +53,7 @@ public class GetFollowersPresenter {
         }
     }
 
-    private class GetFollowerObserver implements FollowService.GetFollowerObserver{
+    private class GetFollowerObserver implements FollowService.FollowerObserver {
 
         @Override
         public void handleSuccess(List<User> followers, boolean hasMorePages) {
@@ -73,14 +66,14 @@ public class GetFollowersPresenter {
         }
 
         @Override
-        public void displayError(String errorMessage) {
+        public void handleError(String errorMessage) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.displayMessage(errorMessage);
         }
 
         @Override
-        public void displayException(Exception ex) {
+        public void handleException(Exception ex) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.displayMessage("Failed to get followers because of exception: " + ex.getMessage());
@@ -92,7 +85,7 @@ public class GetFollowersPresenter {
         userService.getUser(aliasString, new GetUserObserver());
     }
 
-    private class GetUserObserver implements UserService.GetUserObserver {
+    private class GetUserObserver implements UserService.UserObserver {
 
         @Override
         public void handleSuccess(User user) {

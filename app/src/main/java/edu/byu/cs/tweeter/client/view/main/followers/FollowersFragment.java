@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,21 +23,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetFollowersTask;
-import edu.byu.cs.tweeter.client.model.services.backgroundTask.GetUserTask;
-import edu.byu.cs.tweeter.client.cache.Cache;
-import edu.byu.cs.tweeter.client.presenter.GetFollowersPresenter;
+import edu.byu.cs.tweeter.client.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
 /**
  * Implements the "Followers" tab.
  */
-public class FollowersFragment extends Fragment implements GetFollowersPresenter.View{
+public class FollowersFragment extends Fragment implements FollowersPresenter.View{
 
     private static final String LOG_TAG = "FollowersFragment";
     private static final String USER_KEY = "UserKey";
@@ -52,7 +46,7 @@ public class FollowersFragment extends Fragment implements GetFollowersPresenter
 
     private FollowersRecyclerViewAdapter followersRecyclerViewAdapter;
 
-    private GetFollowersPresenter presenter = new GetFollowersPresenter(this);
+    private FollowersPresenter presenter = new FollowersPresenter(this);
 
     /**
      * Creates an instance of the fragment and places the target user in an arguments
