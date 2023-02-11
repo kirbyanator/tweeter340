@@ -46,7 +46,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
 
     private FollowersRecyclerViewAdapter followersRecyclerViewAdapter;
 
-    private FollowersPresenter presenter = new FollowersPresenter(this);
+    private FollowersPresenter presenter;
 
     /**
      * Creates an instance of the fragment and places the target user in an arguments
@@ -83,6 +83,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
 
         followersRecyclerView.addOnScrollListener(new FollowRecyclerViewPaginationScrollListener(layoutManager));
 
+        presenter = new FollowersPresenter(this);
         presenter.loadMoreItems(user);
 
         return view;
@@ -336,7 +337,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
                     // Run this code later on the UI thread
                     final Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(() -> {
-                        followersRecyclerViewAdapter.loadMoreItems();
+                        presenter.loadMoreItems(user);
                     }, 0);
                 }
             }

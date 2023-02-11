@@ -52,7 +52,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
 
     private StoryRecyclerViewAdapter storyRecyclerViewAdapter;
 
-    private StoryPresenter presenter = new StoryPresenter(this);
+    private StoryPresenter presenter;
 
     /**
      * Creates an instance of the fragment and places the target user in an arguments
@@ -89,6 +89,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
 
         storyRecyclerView.addOnScrollListener(new StoryRecyclerViewPaginationScrollListener(layoutManager));
 
+        presenter = new StoryPresenter(this);
         presenter.loadMoreItems(user);
 
         return view;
@@ -386,7 +387,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
                     // Run this code later on the UI thread
                     final Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(() -> {
-                        storyRecyclerViewAdapter.loadMoreItems();
+                        presenter.loadMoreItems(user);
                     }, 0);
                 }
             }

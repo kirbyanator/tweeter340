@@ -78,10 +78,11 @@ public class FeedPresenter {
 
         @Override
         public void handleSuccess(List<Status> statuses, boolean hasMorePages) {
-            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() - 1) : null;
-            setHasMorePages(hasMorePages);
             isLoading = false;
             view.setLoadingFooter(isLoading);
+
+            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() - 1) : null;
+            setHasMorePages(hasMorePages);
             view.addMoreItems(statuses);
         }
     }

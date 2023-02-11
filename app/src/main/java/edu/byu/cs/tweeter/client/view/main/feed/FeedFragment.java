@@ -50,7 +50,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
 
     private FeedRecyclerViewAdapter feedRecyclerViewAdapter;
 
-    private FeedPresenter presenter = new FeedPresenter(this);
+    private FeedPresenter presenter;
 
     /**
      * Creates an instance of the fragment and places the target user in an arguments
@@ -87,6 +87,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
 
         feedRecyclerView.addOnScrollListener(new FeedRecyclerViewPaginationScrollListener(layoutManager));
 
+        presenter = new FeedPresenter(this);
         presenter.loadMoreItems(user);
 
         return view;
@@ -381,7 +382,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
                     // Run this code later on the UI thread
                     final Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(() -> {
-                        feedRecyclerViewAdapter.loadMoreItems();
+                        presenter.loadMoreItems(user);
                     }, 0);
                 }
             }

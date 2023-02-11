@@ -1,5 +1,9 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.services.FollowService;
 import edu.byu.cs.tweeter.client.model.services.StatusService;
 import edu.byu.cs.tweeter.client.model.services.UserService;
@@ -143,7 +147,8 @@ public class MainActivityPresenter {
         }
     }
 
-    public void postStatus(Status newStatus) {
+    public void postStatus(String post) {
+        Status newStatus = new Status(post, Cache.getInstance().getCurrUser(), System.currentTimeMillis(), parseURLs(post), parseMentions(post));
         statusService.postStatus(newStatus, new PostStatusObserver());
     }
 
@@ -162,6 +167,63 @@ public class MainActivityPresenter {
         @Override
         public void handleException(Exception ex) {
             view.displayMessage("Failed to post status because of exception: " + ex.getMessage());
+        }
+    }
+
+    public List<String> parseURLs(String post) {
+        List<String> containedUrls = new ArrayList<>();
+        for (String word : post.split("\\s")) {
+            if (word.startsWith("http://") || word.startsWith("https://")) {
+
+                int index = findUrlEndIndex(word);
+
+                word = word.substring(0, index);
+
+                containedUrls.add(word);
+            }
+        }
+
+        return containedUrls;
+    }
+
+    public List<String> parseMentions(String post) {
+        List<String> containedMentions = new ArrayList<>();
+
+        for (String word : post.split("\\s")) {
+            if (word.startsWith("@")) {
+                word = word.replaceAll("[^a-zA-Z0-9]", "");
+                word = "@".concat(word);
+
+                containedMentions.add(word);
+            }
+        }
+
+        return containedMentions;
+    }
+
+    public int findUrlEndIndex(String word) {
+        if (word.contains(".com")) {
+            int index = word.indexOf(".com");
+            index += 4;
+            return index;
+        } else if (word.contains(".org")) {
+            int index = word.indexOf(".org");
+            index += 4;
+            return index;
+        } else if (word.contains(".edu")) {
+            int index = word.indexOf(".edu");
+            index += 4;
+            return index;
+        } else if (word.contains(".net")) {
+            int index = word.indexOf(".net");
+            index += 4;
+            return index;
+        } else if (word.contains(".mil")) {
+            int index = word.indexOf(".mil");
+            index += 4;
+            return index;
+        } else {
+            return word.length();
         }
     }
 

@@ -29,7 +29,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
     private EditText password;
     private TextView errorView;
 
-    private LoginPresenter presenter = new LoginPresenter(this);
+    private LoginPresenter presenter;
 
     /**
      * Creates an instance of the fragment and places the user and auth token in an arguments
@@ -50,6 +50,9 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
         alias = view.findViewById(R.id.loginUsername);
         password = view.findViewById(R.id.loginPassword);
         errorView = view.findViewById(R.id.loginError);
+
+        presenter = new LoginPresenter(this);
+
         Button loginButton = view.findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
 

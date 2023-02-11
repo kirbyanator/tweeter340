@@ -43,7 +43,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
 
     private FollowingRecyclerViewAdapter followingRecyclerViewAdapter;
 
-    private FollowingPresenter presenter = new FollowingPresenter(this);
+    private FollowingPresenter presenter;
 
     /**
      * Creates an instance of the fragment and places the target user in an arguments
@@ -79,6 +79,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
 
         followingRecyclerView.addOnScrollListener(new FollowRecyclerViewPaginationScrollListener(layoutManager));
 
+        presenter = new FollowingPresenter(this);
         presenter.loadMoreItems(user);
 
         return view;
@@ -333,7 +334,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
                     // Run this code later on the UI thread
                     final Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(() -> {
-                        followingRecyclerViewAdapter.loadMoreItems();
+                        presenter.loadMoreItems(user);
                     }, 0);
                 }
             }

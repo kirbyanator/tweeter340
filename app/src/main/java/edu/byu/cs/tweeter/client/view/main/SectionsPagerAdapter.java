@@ -47,12 +47,16 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         if (this.user.compareTo(Cache.getInstance().getCurrUser()) == 0) {
             if (position == REGULAR_FEED_FRAGMENT_POSITION) {
+                System.out.println("Starting feed");
                 return FeedFragment.newInstance(user);
             } else if (position == REGULAR_STORY_FRAGMENT_POSITION) {
+                System.out.println("Starting story");
                 return StoryFragment.newInstance(user);
             } else if (position == REGULAR_FOLLOWING_FRAGMENT_POSITION) {
+                System.out.println("Starting following");
                 return FollowingFragment.newInstance(user);
             } else if (position == REGULAR_FOLLOWERS_FRAGMENT_POSITION) {
+                System.out.println("Starting follower");
                 return FollowersFragment.newInstance(user);
             } else {
                 return null;

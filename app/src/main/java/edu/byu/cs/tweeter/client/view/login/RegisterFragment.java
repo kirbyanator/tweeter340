@@ -39,7 +39,7 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
     private TextView errorView;
     private Toast registeringToast;
 
-    private RegisterPresenter presenter = new RegisterPresenter(this);
+    private RegisterPresenter presenter;
 
     /**
      * Creates an instance of the fragment and places the user and auth token in an arguments
@@ -65,6 +65,8 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
         imageToUpload = view.findViewById(R.id.registerImage);
         registerButton = view.findViewById(R.id.registerButton);
         errorView = view.findViewById(R.id.registerError);
+
+        presenter = new RegisterPresenter(this);
 
         imageUploaderButton.setOnClickListener(new View.OnClickListener() {
             @Override
