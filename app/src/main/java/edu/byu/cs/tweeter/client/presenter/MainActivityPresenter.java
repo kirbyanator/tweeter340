@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
-import edu.byu.cs.tweeter.client.model.services.FollowService;
-import edu.byu.cs.tweeter.client.model.services.StatusService;
-import edu.byu.cs.tweeter.client.model.services.UserService;
+import edu.byu.cs.tweeter.client.model.service.FollowService;
+import edu.byu.cs.tweeter.client.model.service.StatusService;
+import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -75,25 +75,24 @@ public class MainActivityPresenter {
     private class UnfollowObserver implements FollowService.UnfollowObserver{
 
         @Override
-        public void handleSuccess(boolean b) {
+        public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
             view.updateFollowButton(true);
+            view.enableFollowButton(true);
         }
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to unfollow: " + s);
+            view.enableFollowButton(true);
         }
 
         @Override
         public void handleException(Exception ex) {
             view.displayMessage("Failed to unfollow because of exception: " + ex.getMessage());
-        }
-
-        @Override
-        public void enableFollowButton(boolean b) {
             view.enableFollowButton(true);
         }
+
     }
 
 
@@ -106,22 +105,21 @@ public class MainActivityPresenter {
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
             view.updateFollowButton(false);
+            view.enableFollowButton(true);
         }
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to follow: " + s);
+            view.enableFollowButton(true);
         }
 
         @Override
         public void handleException(Exception ex) {
             view.displayMessage("Failed to follow because of exception: " + ex.getMessage());
-        }
-
-        @Override
-        public void enableFollowButton(boolean b) {
             view.enableFollowButton(true);
         }
+
     }
 
 
@@ -138,7 +136,7 @@ public class MainActivityPresenter {
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to logout: " + s);
         }
 
         @Override
