@@ -15,6 +15,7 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.CountTaskH
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollowerHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PagedTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
+import edu.byu.cs.tweeter.client.model.service.observer.BooleanObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.GetCountObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
@@ -45,13 +46,8 @@ public class FollowService {
         executor.execute(getFollowersTask);
     }
 
-    public interface IsFollowerObserver {
+    public interface IsFollowerObserver extends BooleanObserver {
 
-        void handleSuccess(boolean isFollower);
-
-        void handleFailure(String s);
-
-        void handleException(Exception ex);
     }
 
     public void checkIsFollower(User user, IsFollowerObserver observer){
@@ -60,7 +56,6 @@ public class FollowService {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(isFollowerTask);
     }
-    // IsFollowerHandler
 
     public interface UnfollowObserver extends SimpleObserver{
 

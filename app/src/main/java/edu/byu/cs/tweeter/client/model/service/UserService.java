@@ -8,22 +8,17 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetUserTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.AuthenticationTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetUserHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.LoginHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.RegisterHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
+import edu.byu.cs.tweeter.client.model.service.observer.GetUserObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
-import edu.byu.cs.tweeter.model.domain.User;
 
 public class UserService {
 
 
-    public interface UserObserver {
-        void handleSuccess(User user);
+    public interface UserObserver extends GetUserObserver{
 
-        void handleFailure(String errorMessage);
-
-        void handleException(Exception ex);
     }
     public void getUser(String userAliasString, UserObserver observer){
         GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(),
@@ -37,39 +32,28 @@ public class UserService {
         // Send the login request.
         LoginTask loginTask = new LoginTask(aliasString.toString(),
                 passwordString.toString(),
-                new LoginHandler(observer));
+                new AuthenticationTaskHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(loginTask);
     }
-    public interface LoginObserver{
+    public interface LoginObserver extends GetUserObserver {
 
-        void handleSuccess(User loggedInUser);
-
-        void handleFailure(String errorMessage);
-
-        void handleException(Exception ex);
     }
 
 
     public void registerUser(String firstName, String lastName, String aliasName, String password, String imageBytesBase64
     , RegisterObserver observer) {
         RegisterTask registerTask = new RegisterTask(firstName, lastName,
-                aliasName, password, imageBytesBase64, new RegisterHandler(observer));
+                aliasName, password, imageBytesBase64, new AuthenticationTaskHandler(observer));
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(registerTask);
     }
 
-    public interface RegisterObserver{
+    public interface RegisterObserver extends GetUserObserver{
 
-        void handleSuccess(User registeredUser);
-
-        void handleFailure(String s);
-
-        void handleException(Exception ex);
     }
 
-    // RegisterHandler
 
     public void logout(LogoutObserver observer){
         LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new SimpleTaskHandler(observer));

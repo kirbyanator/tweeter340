@@ -82,7 +82,7 @@ public class RegisterPresenter {
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to register: " + s);
         }
 
         @Override

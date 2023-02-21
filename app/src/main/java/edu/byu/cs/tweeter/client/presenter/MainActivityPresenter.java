@@ -58,7 +58,7 @@ public class MainActivityPresenter {
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to determine following relationship: " + s);
         }
 
         @Override
@@ -159,7 +159,7 @@ public class MainActivityPresenter {
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to post status: " + s);
         }
 
         @Override

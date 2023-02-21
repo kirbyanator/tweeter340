@@ -51,7 +51,7 @@ public class LoginPresenter {
 
         @Override
         public void handleFailure(String errorMessage) {
-            view.displayMessage(errorMessage);
+            view.displayMessage("Failed to login: " + errorMessage);
         }
 
         @Override
