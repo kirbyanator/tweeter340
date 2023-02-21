@@ -21,45 +21,40 @@ import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class FollowService {
+public class FollowService extends TaskExecutor {
 
 
     public void getFollowees(User user, int pageSize, User lastFollowee, PagedTaskObserver<User> observer) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, pageSize, lastFollowee, new PagedTaskHandler<>(observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(getFollowingTask);
+        executeTask(getFollowingTask);
     }
 
 
     public void getFollowers(User user, int pageSize, User lastFollower, PagedTaskObserver<User> getFollowerObserver) {
         GetFollowersTask getFollowersTask = new GetFollowersTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, pageSize, lastFollower, new PagedTaskHandler<>(getFollowerObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(getFollowersTask);
+        executeTask(getFollowersTask);
     }
 
 
     public void checkIsFollower(User user, BooleanObserver observer){
         IsFollowerTask isFollowerTask = new IsFollowerTask(Cache.getInstance().getCurrUserAuthToken(),
                 Cache.getInstance().getCurrUser(), user, new IsFollowerHandler(observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(isFollowerTask);
+        executeTask(isFollowerTask);
     }
 
     public void unfollowUser(User user, SimpleObserver observer){
         UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, new SimpleTaskHandler(observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(unfollowTask);
+        executeTask(unfollowTask);
     }
 
 
     public void followUser(User user, SimpleObserver observer){
         FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, new SimpleTaskHandler(observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(followTask);
+        executeTask(followTask);
     }
 
 
