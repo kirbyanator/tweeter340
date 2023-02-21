@@ -1,6 +1,5 @@
 package edu.byu.cs.tweeter.client.model.service;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,44 +11,36 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountT
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.FollowHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowersCountHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowersHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowingCountHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowingHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollowerHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.UnfollowHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PagedTaskHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
+import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService {
 
-    public interface FollowingObserver {
-        void handleError(String message);
-        void handleException(Exception ex);
+    public interface FollowingObserver extends PagedTaskObserver<User>{
 
-        void handleSuccess(List<User> followees, boolean hasMorePages);
     }
 
     public void getFollowees(User user, int pageSize, User lastFollowee, FollowingObserver observer) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(Cache.getInstance().getCurrUserAuthToken(),
-                user, pageSize, lastFollowee, new GetFollowingHandler(observer));
+                user, pageSize, lastFollowee, new PagedTaskHandler<>(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(getFollowingTask);
     }
 
 
-    public interface FollowerObserver {
+    public interface FollowerObserver extends PagedTaskObserver<User> {
 
-        void handleSuccess(List<User> followers, boolean hasMorePages);
-
-        void handleError(String errorMessage);
-
-        void handleException(Exception ex);
     }
 
     public void getFollowers(User user, int pageSize, User lastFollower, FollowerObserver getFollowerObserver) {
         GetFollowersTask getFollowersTask = new GetFollowersTask(Cache.getInstance().getCurrUserAuthToken(),
-                user, pageSize, lastFollower, new GetFollowersHandler(getFollowerObserver));
+                user, pageSize, lastFollower, new PagedTaskHandler<>(getFollowerObserver));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(getFollowersTask);
     }
@@ -71,37 +62,24 @@ public class FollowService {
     }
     // IsFollowerHandler
 
-    public interface UnfollowObserver{
+    public interface UnfollowObserver extends SimpleObserver{
 
-        void handleSuccess();
-
-        void handleFailure(String s);
-
-        void handleException(Exception ex);
     }
 
     public void unfollowUser(User user, UnfollowObserver observer){
         UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                user, new UnfollowHandler(observer));
+                user, new SimpleTaskHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(unfollowTask);
     }
 
-    // UnfollowHandler
-
-    public interface FollowObserver{
-
-        void handleSuccess();
-
-        void handleFailure(String s);
-
-        void handleException(Exception ex);
+    public interface FollowObserver extends SimpleObserver {
 
     }
 
     public void followUser(User user, FollowObserver observer){
         FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                user, new FollowHandler(observer));
+                user, new SimpleTaskHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followTask);
     }

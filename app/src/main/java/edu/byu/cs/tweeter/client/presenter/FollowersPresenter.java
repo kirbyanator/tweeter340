@@ -66,7 +66,7 @@ public class FollowersPresenter {
         }
 
         @Override
-        public void handleError(String errorMessage) {
+        public void handleFailure(String errorMessage) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.displayMessage(errorMessage);

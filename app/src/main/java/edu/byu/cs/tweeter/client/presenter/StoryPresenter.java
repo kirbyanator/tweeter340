@@ -62,7 +62,7 @@ public class StoryPresenter {
     private class StoryObserver implements StatusService.StoryObserver {
 
         @Override
-        public void handleError(String message) {
+        public void handleFailure(String message) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.displayMessage(message);

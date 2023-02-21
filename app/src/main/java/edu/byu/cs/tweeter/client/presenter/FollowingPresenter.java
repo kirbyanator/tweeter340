@@ -61,7 +61,7 @@ public class FollowingPresenter {
     private class FollowingObserver implements FollowService.FollowingObserver {
 
         @Override
-        public void handleError(String message) {
+        public void handleFailure(String message) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.displayMessage(message);

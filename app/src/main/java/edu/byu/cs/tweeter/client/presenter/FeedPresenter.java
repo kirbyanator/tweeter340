@@ -63,7 +63,7 @@ public class FeedPresenter {
     private class FeedObserver implements StatusService.FeedObserver {
 
         @Override
-        public void handleError(String message) {
+        public void handleFailure(String message) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
             view.displayMessage("Failed to get feed: " + message);

@@ -63,10 +63,13 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
             }
         } else {
             if (position == OTHER_STORY_FRAGMENT_POSITION) {
+                System.out.println("restarting story");
                 return StoryFragment.newInstance(user);
             } else if (position == OTHER_FOLLOWING_FRAGMENT_POSITION) {
+                System.out.println("restarting following");
                 return FollowingFragment.newInstance(user);
             } else if (position == OTHER_FOLLOWERS_FRAGMENT_POSITION) {
+                System.out.println("restarting followers");
                 return FollowersFragment.newInstance(user);
             } else {
                 return null;
