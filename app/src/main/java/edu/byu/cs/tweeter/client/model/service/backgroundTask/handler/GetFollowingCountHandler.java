@@ -26,7 +26,7 @@ public class GetFollowingCountHandler extends Handler {
             observer.handleSuccess(count);
         } else if (msg.getData().containsKey(GetFollowingCountTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(GetFollowingCountTask.MESSAGE_KEY);
-            observer.handleFailure("Failed to get following count: " + message);
+            observer.handleFailure(message);
         } else if (msg.getData().containsKey(GetFollowingCountTask.EXCEPTION_KEY)) {
             Exception ex = (Exception) msg.getData().getSerializable(GetFollowingCountTask.EXCEPTION_KEY);
             observer.handleException(ex);

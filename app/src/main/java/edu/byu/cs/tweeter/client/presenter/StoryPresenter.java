@@ -65,7 +65,7 @@ public class StoryPresenter {
         public void handleFailure(String message) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
-            view.displayMessage(message);
+            view.displayMessage("Failed to get story: " + message);
         }
 
         @Override

@@ -11,11 +11,11 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountT
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowersCountHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowingCountHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.CountTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollowerHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PagedTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
+import edu.byu.cs.tweeter.client.model.service.observer.GetCountObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -84,36 +84,26 @@ public class FollowService {
         executor.execute(followTask);
     }
 
-    public interface FollowerCountObserver{
+    public interface FollowerCountObserver extends GetCountObserver {
 
-        void handleSuccess(int count);
-
-        void handleFailure(String s);
-
-        void handleException(Exception ex);
     }
 
     public void getFollowerCount(User user, FollowerCountObserver observer) {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         GetFollowersCountTask followersCountTask = new GetFollowersCountTask(Cache.getInstance().getCurrUserAuthToken(),
-                user, new GetFollowersCountHandler(observer));
+                user, new CountTaskHandler(observer));
         executor.execute(followersCountTask);
     }
 
 
-    public interface FollowingCountObserver{
+    public interface FollowingCountObserver extends GetCountObserver{
 
-        void handleSuccess(int count);
-
-        void handleFailure(String s);
-
-        void handleException(Exception ex);
     }
 
     public void getFollowingCount(User user, FollowingCountObserver observer){
         ExecutorService executor = Executors.newFixedThreadPool(2);
         GetFollowingCountTask followingCountTask = new GetFollowingCountTask(Cache.getInstance().getCurrUserAuthToken(),
-                user, new GetFollowingCountHandler(observer));
+                user, new CountTaskHandler(observer));
         executor.execute(followingCountTask);
     }
 

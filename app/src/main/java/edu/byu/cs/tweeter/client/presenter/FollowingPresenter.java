@@ -64,7 +64,7 @@ public class FollowingPresenter {
         public void handleFailure(String message) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
-            view.displayMessage(message);
+            view.displayMessage("Failed to get following: " + message);
         }
 
         @Override

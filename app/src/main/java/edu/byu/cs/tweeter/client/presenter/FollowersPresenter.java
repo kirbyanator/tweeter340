@@ -69,7 +69,7 @@ public class FollowersPresenter {
         public void handleFailure(String errorMessage) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
-            view.displayMessage(errorMessage);
+            view.displayMessage("Failed to get followers: " + errorMessage);
         }
 
         @Override

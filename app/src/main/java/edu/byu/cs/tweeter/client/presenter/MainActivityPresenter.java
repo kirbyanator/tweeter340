@@ -238,7 +238,7 @@ public class MainActivityPresenter {
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to get followers count: " + s);
         }
 
         @Override
@@ -260,7 +260,7 @@ public class MainActivityPresenter {
 
         @Override
         public void handleFailure(String s) {
-            view.displayMessage(s);
+            view.displayMessage("Failed to get following count: " + s);
         }
 
         @Override
