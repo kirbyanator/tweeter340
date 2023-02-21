@@ -3,15 +3,15 @@ package edu.byu.cs.tweeter.client.model.service.backgroundTask.handler;
 import android.os.Bundle;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountTask;
-import edu.byu.cs.tweeter.client.model.service.observer.GetCountObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.CountObserver;
 
-public class CountTaskHandler extends BackgroundTaskHandler<GetCountObserver>{
-    public CountTaskHandler(GetCountObserver observer) {
+public class CountTaskHandler extends BackgroundTaskHandler<CountObserver>{
+    public CountTaskHandler(CountObserver observer) {
         super(observer);
     }
 
     @Override
-    protected void handleSuccessMessage(GetCountObserver observer, Bundle data) {
+    protected void handleSuccessMessage(CountObserver observer, Bundle data) {
         int count = data.getInt(GetFollowingCountTask.COUNT_KEY);
         observer.handleSuccess(count);
     }

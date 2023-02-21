@@ -9,7 +9,7 @@ import edu.byu.cs.tweeter.client.model.service.observer.BooleanObserver;
 public class IsFollowerHandler extends BackgroundTaskHandler<BooleanObserver> {
 
 
-    public IsFollowerHandler(FollowService.IsFollowerObserver observer) {
+    public IsFollowerHandler(BooleanObserver observer) {
         super(observer);
     }
 

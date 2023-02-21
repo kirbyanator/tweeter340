@@ -11,15 +11,12 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.AuthenticationTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetUserHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
-import edu.byu.cs.tweeter.client.model.service.observer.GetUserObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
 
 public class UserService {
 
 
-    public interface UserObserver extends GetUserObserver{
-
-    }
     public void getUser(String userAliasString, UserObserver observer){
         GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(),
                 userAliasString, new GetUserHandler(observer));
@@ -28,7 +25,7 @@ public class UserService {
     }
 
 
-    public void loginUser(String aliasString, String passwordString, LoginObserver observer) {
+    public void loginUser(String aliasString, String passwordString, UserObserver observer) {
         // Send the login request.
         LoginTask loginTask = new LoginTask(aliasString.toString(),
                 passwordString.toString(),
@@ -36,13 +33,11 @@ public class UserService {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(loginTask);
     }
-    public interface LoginObserver extends GetUserObserver {
 
-    }
 
 
     public void registerUser(String firstName, String lastName, String aliasName, String password, String imageBytesBase64
-    , RegisterObserver observer) {
+    , UserObserver observer) {
         RegisterTask registerTask = new RegisterTask(firstName, lastName,
                 aliasName, password, imageBytesBase64, new AuthenticationTaskHandler(observer));
 
@@ -50,21 +45,13 @@ public class UserService {
         executor.execute(registerTask);
     }
 
-    public interface RegisterObserver extends GetUserObserver{
-
-    }
 
 
-    public void logout(LogoutObserver observer){
+    public void logout(SimpleObserver observer){
         LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new SimpleTaskHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(logoutTask);
     }
-
-    public interface LogoutObserver extends SimpleObserver {
-
-    }
-
 
 
 }

@@ -7,6 +7,9 @@ import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
+import edu.byu.cs.tweeter.client.model.service.observer.BooleanObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.CountObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -48,7 +51,7 @@ public class MainActivityPresenter {
         followService.checkIsFollower(selectedUser, new IsFollowerObserver());
     }
 
-    private class IsFollowerObserver implements FollowService.IsFollowerObserver{
+    private class IsFollowerObserver implements BooleanObserver {
 
         @Override
         public void handleSuccess(boolean isFollower) {
@@ -72,7 +75,7 @@ public class MainActivityPresenter {
         followService.unfollowUser(selectedUser, new UnfollowObserver());
     }
 
-    private class UnfollowObserver implements FollowService.UnfollowObserver{
+    private class UnfollowObserver implements SimpleObserver{
 
         @Override
         public void handleSuccess() {
@@ -100,7 +103,7 @@ public class MainActivityPresenter {
         followService.followUser(selectedUser, new FollowObserver());
     }
 
-    private class FollowObserver implements FollowService.FollowObserver{
+    private class FollowObserver implements SimpleObserver{
         @Override
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
@@ -127,7 +130,7 @@ public class MainActivityPresenter {
         userService.logout(new LogoutObserver());
     }
 
-    private class LogoutObserver implements UserService.LogoutObserver{
+    private class LogoutObserver implements SimpleObserver {
 
         @Override
         public void handleSuccess() {
@@ -150,7 +153,7 @@ public class MainActivityPresenter {
         statusService.postStatus(newStatus, new PostStatusObserver());
     }
 
-    private class PostStatusObserver implements StatusService.PostStatusObserver{
+    private class PostStatusObserver implements SimpleObserver{
 
         @Override
         public void handleSuccess() {
@@ -229,7 +232,7 @@ public class MainActivityPresenter {
         followService.getFollowerCount(user, new FollowerCountObserver());
     }
 
-    private class FollowerCountObserver implements FollowService.FollowerCountObserver{
+    private class FollowerCountObserver implements CountObserver {
 
         @Override
         public void handleSuccess(int count) {
@@ -251,7 +254,7 @@ public class MainActivityPresenter {
         followService.getFollowingCount(selectedUser, new FollowingCountObserver());
     }
     
-    private class FollowingCountObserver implements FollowService.FollowingCountObserver{
+    private class FollowingCountObserver implements CountObserver{
 
         @Override
         public void handleSuccess(int count) {

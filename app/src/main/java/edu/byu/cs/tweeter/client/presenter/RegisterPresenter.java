@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 
 import edu.byu.cs.tweeter.client.model.service.UserService;
+import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class RegisterPresenter {
@@ -73,7 +74,7 @@ public class RegisterPresenter {
         }
     }
 
-    private class RegisterObserver implements UserService.RegisterObserver{
+    private class RegisterObserver implements UserObserver {
 
         @Override
         public void handleSuccess(User registeredUser) {

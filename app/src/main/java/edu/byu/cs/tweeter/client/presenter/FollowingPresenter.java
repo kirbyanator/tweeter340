@@ -4,6 +4,8 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
+import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowingPresenter {
@@ -58,7 +60,7 @@ public class FollowingPresenter {
         isLoading = loading;
     }
 
-    private class FollowingObserver implements FollowService.FollowingObserver {
+    private class FollowingObserver implements PagedTaskObserver<User> {
 
         @Override
         public void handleFailure(String message) {
@@ -86,10 +88,10 @@ public class FollowingPresenter {
     }
 
     public void getUserFromService(String userAliasString) {
-        userService.getUser(userAliasString, new UserObserver());
+        userService.getUser(userAliasString, new GetUserObserver());
     }
 
-    private class UserObserver implements UserService.UserObserver {
+    private class GetUserObserver implements UserObserver {
 
         @Override
         public void handleSuccess(User user) {
