@@ -4,20 +4,20 @@ import edu.byu.cs.tweeter.client.model.service.observer.interfaces.ServiceObserv
 import edu.byu.cs.tweeter.client.presenter.Presenter;
 import edu.byu.cs.tweeter.client.presenter.view.View;
 
-public abstract class BaseObserver implements ServiceObserver {
+public abstract class BaseObserver<T extends Presenter<?>>{
 
-    protected Presenter<View> presenter;
 
-    public BaseObserver(Presenter<View> presenter){
+    protected T presenter;
+    // protected Presenter<View> presenter;
+
+    public BaseObserver(T presenter){
         this.presenter = presenter;
     }
 
-    @Override
     public void handleFailure(String message) {
         presenter.getView().displayMessage("Failed to " + getErrorMessage() + ": " + message);
     }
 
-    @Override
     public void handleException(Exception exception) {
         presenter.getView().displayMessage("Failed to " + getErrorMessage() + " because of exception " + exception.getMessage());
     }

@@ -17,7 +17,7 @@ public class FeedPresenter extends PagedPresenter<Status>{
 
     @Override
     public void getItems(User user, int PAGE_SIZE, Status lastItem) {
-        statusService.getFeed(user, PAGE_SIZE, lastItem, new PageObserver());
+        statusService.getFeed(user, PAGE_SIZE, lastItem, new PageObserver(this));
     }
 
     @Override

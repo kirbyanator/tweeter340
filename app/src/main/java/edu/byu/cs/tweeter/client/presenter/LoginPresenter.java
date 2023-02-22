@@ -14,7 +14,7 @@ public class LoginPresenter extends AuthenticationPresenter{
     public void logIn(String aliasString, String passwordString) {
         validateLogin(aliasString, passwordString);
         view.prepAuthentication();
-        userService.loginUser(aliasString, passwordString, new AuthenticationObserver());
+        userService.loginUser(aliasString, passwordString, new AuthenticationObserver(this));
     }
 
     public void validateLogin(String aliasString, String passwordString) {

@@ -17,7 +17,7 @@ public class StoryPresenter extends PagedPresenter<Status>{
 
     @Override
     public void getItems(User user, int PAGE_SIZE, Status lastItem) {
-        statusService.getStory(user, PAGE_SIZE, lastItem, new PageObserver());
+        statusService.getStory(user, PAGE_SIZE, lastItem, new PageObserver(this));
     }
 
     @Override

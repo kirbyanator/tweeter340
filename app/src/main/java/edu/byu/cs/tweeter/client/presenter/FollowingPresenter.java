@@ -16,7 +16,7 @@ public class FollowingPresenter extends PagedPresenter<User>{
 
     @Override
     public void getItems(User user, int PAGE_SIZE, User lastItem) {
-        followService.getFollowees(user, PAGE_SIZE, lastItem, new PageObserver());
+        followService.getFollowees(user, PAGE_SIZE, lastItem, new PageObserver(this));
     }
 
     @Override

@@ -33,7 +33,7 @@ public class RegisterPresenter extends AuthenticationPresenter{
         String imageBytesBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
         // Send register request.
-        userService.registerUser(firstName, lastName, aliasName, password, imageBytesBase64, new AuthenticationObserver());
+        userService.registerUser(firstName, lastName, aliasName, password, imageBytesBase64, new AuthenticationObserver(this));
     }
 
     public void validateRegistration(String firstName, String lastName, String aliasName, String password, Drawable icon) {
