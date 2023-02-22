@@ -54,12 +54,17 @@ public abstract class PagedPresenter<T> extends Presenter<PagedView<T>> {
 
         @Override
         public void handleSuccess(List<T> items, boolean hasMorePages) {
-            isLoading = false;
-            view.setLoadingFooter(isLoading);
+            onFinish();
 
             lastItem = (items.size() > 0) ? items.get(items.size() - 1) : null;
             setHasMorePages(hasMorePages);
             view.addMoreItems(items);
+        }
+
+        @Override
+        public void onFinish() {
+            isLoading = false;
+            view.setLoadingFooter(isLoading);
         }
 
         @Override
@@ -72,7 +77,7 @@ public abstract class PagedPresenter<T> extends Presenter<PagedView<T>> {
         userService.getUser(aliasString, new GetUserObserver(this));
     }
 
-    protected class GetUserObserver extends BaseObserver<PagedPresenter<?>>implements UserObserver {
+    protected class GetUserObserver extends BaseObserver<PagedPresenter<?>> implements UserObserver {
 
         public GetUserObserver(PagedPresenter<?> presenter) {
             super(presenter);
