@@ -64,7 +64,7 @@ public abstract class PagedPresenter<T> extends Presenter<PagedView<T>> {
         public void handleFailure(String errorMessage) {
             isLoading = false;
             view.setLoadingFooter(isLoading);
-            view.displayMessage("Failed to get " + getPresenterType() + errorMessage);
+            view.displayMessage("Failed to get " + getPresenterType() + ": " +  errorMessage);
         }
 
         @Override

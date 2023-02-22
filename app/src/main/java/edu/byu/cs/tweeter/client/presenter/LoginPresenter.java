@@ -2,33 +2,21 @@ package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
+import edu.byu.cs.tweeter.client.presenter.view.AuthenticationView;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class LoginPresenter {
+public class LoginPresenter extends AuthenticationPresenter{
 
-    public interface View{
 
-        void prepLoginText();
-
-        void loginSuccess(User loggedInUser);
-
-        void displayMessage(String errorMessage);
-
-    }
-
-    private View view;
-
-    private UserService userService;
-
-    public LoginPresenter(View view){
+    public LoginPresenter(AuthenticationView view){
         this.view = view;
         this.userService = new UserService();
     }
 
     public void logIn(String aliasString, String passwordString) {
         validateLogin(aliasString, passwordString);
-        view.prepLoginText();
-        userService.loginUser(aliasString, passwordString, new LoginObserver());
+        view.prepAuthentication();
+        userService.loginUser(aliasString, passwordString, new AuthenticationObserver());
     }
 
     public void validateLogin(String aliasString, String passwordString) {
@@ -43,22 +31,10 @@ public class LoginPresenter {
         }
     }
 
-    public class LoginObserver implements UserObserver {
-
-        @Override
-        public void handleSuccess(User loggedInUser) {
-            view.loginSuccess(loggedInUser);
-        }
-
-        @Override
-        public void handleFailure(String errorMessage) {
-            view.displayMessage("Failed to login: " + errorMessage);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            view.displayMessage("Failed to login because of exception: " + ex.getMessage());
-        }
+    @Override
+    public String getPresenterType() {
+        return "login";
     }
+
 
 }

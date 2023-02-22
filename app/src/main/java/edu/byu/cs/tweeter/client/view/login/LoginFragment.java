@@ -15,13 +15,14 @@ import androidx.fragment.app.Fragment;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.presenter.LoginPresenter;
+import edu.byu.cs.tweeter.client.presenter.view.AuthenticationView;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
 /**
  * Implements the login screen.
  */
-public class LoginFragment extends Fragment implements LoginPresenter.View {
+public class LoginFragment extends Fragment implements AuthenticationView {
     private static final String LOG_TAG = "LoginFragment";
 
     private Toast loginToast;
@@ -71,24 +72,6 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
         return view;
     }
 
-    @Override
-    public void prepLoginText() {
-        errorView.setText(null);
-
-        loginToast = Toast.makeText(getContext(), "Logging In...", Toast.LENGTH_LONG);
-        loginToast.show();
-    }
-
-    @Override
-    public void loginSuccess(User loggedInUser) {
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(MainActivity.CURRENT_USER_KEY, loggedInUser);
-
-        loginToast.cancel();
-
-        Toast.makeText(getContext(), "Hello " + Cache.getInstance().getCurrUser().getName(), Toast.LENGTH_LONG).show();
-        startActivity(intent);
-    }
 
     @Override
     public void displayMessage(String message) {
@@ -96,4 +79,22 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
     }
 
 
+    @Override
+    public void prepAuthentication() {
+        errorView.setText(null);
+
+        loginToast = Toast.makeText(getContext(), "Logging In...", Toast.LENGTH_LONG);
+        loginToast.show();
+    }
+
+    @Override
+    public void authenticationSuccess(User user) {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+
+        loginToast.cancel();
+
+        Toast.makeText(getContext(), "Hello " + Cache.getInstance().getCurrUser().getName(), Toast.LENGTH_LONG).show();
+        startActivity(intent);
+    }
 }

@@ -18,14 +18,16 @@ import androidx.fragment.app.Fragment;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.client.cache.Cache;
+import edu.byu.cs.tweeter.client.presenter.AuthenticationPresenter;
 import edu.byu.cs.tweeter.client.presenter.RegisterPresenter;
+import edu.byu.cs.tweeter.client.presenter.view.AuthenticationView;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
 /**
  * Implements the register screen.
  */
-public class RegisterFragment extends Fragment implements RegisterPresenter.View {
+public class RegisterFragment extends Fragment implements AuthenticationView {
     private static final String LOG_TAG = "RegisterFragment";
     private static final int RESULT_IMAGE = 10;
 
@@ -106,16 +108,23 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
         }
     }
 
+
     @Override
-    public void registerStart(String s) {
-        registeringToast = Toast.makeText(getContext(), s, Toast.LENGTH_LONG);
+    public void displayMessage(String s) {
+        Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void prepAuthentication() {
+        registeringToast = Toast.makeText(getContext(), "Registering...", Toast.LENGTH_LONG);
         registeringToast.show();
     }
 
     @Override
-    public void registerSuccess(User registeredUser) {
+    public void authenticationSuccess(User user) {
         Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.putExtra(MainActivity.CURRENT_USER_KEY, registeredUser);
+        intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
 
         registeringToast.cancel();
 
@@ -126,11 +135,4 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
             System.out.println(e.getMessage());
         }
     }
-
-    @Override
-    public void displayMessage(String s) {
-        Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
-    }
-
-
 }

@@ -9,31 +9,20 @@ import java.util.Base64;
 
 import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
+import edu.byu.cs.tweeter.client.presenter.view.AuthenticationView;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class RegisterPresenter {
+public class RegisterPresenter extends AuthenticationPresenter{
 
-    public interface View{
 
-        void registerStart(String s);
-
-        void registerSuccess(User registeredUser);
-
-        void displayMessage(String s);
-    }
-
-    private View view;
-
-    private UserService userService;
-
-    public RegisterPresenter(View view){
+    public RegisterPresenter(AuthenticationView view){
         this.view = view;
         this.userService = new UserService();
     }
 
     public void registerUser(String firstName, String lastName, String aliasName, String password, Drawable icon) {
         validateRegistration(firstName, lastName, aliasName, password, icon);
-        view.registerStart("Registering...");
+        view.prepAuthentication();
 
 
         // Convert image to byte array.
@@ -46,7 +35,7 @@ public class RegisterPresenter {
         String imageBytesBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
         // Send register request.
-        userService.registerUser(firstName, lastName, aliasName, password, imageBytesBase64, new RegisterObserver());
+        userService.registerUser(firstName, lastName, aliasName, password, imageBytesBase64, new AuthenticationObserver());
     }
 
     public void validateRegistration(String firstName, String lastName, String aliasName, String password, Drawable icon) {
@@ -74,21 +63,10 @@ public class RegisterPresenter {
         }
     }
 
-    private class RegisterObserver implements UserObserver {
-
-        @Override
-        public void handleSuccess(User registeredUser) {
-            view.registerSuccess(registeredUser);
-        }
-
-        @Override
-        public void handleFailure(String s) {
-            view.displayMessage("Failed to register: " + s);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            view.displayMessage("Failed to register because of exception: " + ex.getMessage());
-        }
+    @Override
+    public String getPresenterType() {
+        return "register";
     }
+
+
 }
