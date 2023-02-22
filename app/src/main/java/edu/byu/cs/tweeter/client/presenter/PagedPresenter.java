@@ -69,10 +69,14 @@ public abstract class PagedPresenter<T> extends Presenter<PagedView<T>> {
     }
 
     public void getUserFromService(String aliasString) {
-        userService.getUser(aliasString, new GetUserObserver());
+        userService.getUser(aliasString, new GetUserObserver(this));
     }
 
-    protected class GetUserObserver implements UserObserver {
+    protected class GetUserObserver extends BaseObserver<PagedPresenter<?>>implements UserObserver {
+
+        public GetUserObserver(PagedPresenter<?> presenter) {
+            super(presenter);
+        }
 
         @Override
         public void handleSuccess(User user) {
@@ -80,13 +84,8 @@ public abstract class PagedPresenter<T> extends Presenter<PagedView<T>> {
         }
 
         @Override
-        public void handleFailure(String errorMessage) {
-            view.displayMessage("Failed to get user's profile " + errorMessage);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            view.displayMessage("Failed to get user's profile because of exception: " + ex.getMessage());
+        public String getErrorMessage() {
+            return "get user's profile";
         }
     }
 
