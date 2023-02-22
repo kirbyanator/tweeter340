@@ -66,18 +66,11 @@ public class MainActivityPresenter extends Presenter<MainView> {
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
             view.updateFollowButton(true);
-            view.enableFollowButton(true);
+            onFinish();
         }
 
         @Override
-        public void handleFailure(String s) {
-            super.handleFailure(s);
-            view.enableFollowButton(true);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            super.handleException(ex);
+        public void onFinish(){
             view.enableFollowButton(true);
         }
 
@@ -102,18 +95,11 @@ public class MainActivityPresenter extends Presenter<MainView> {
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
             view.updateFollowButton(false);
-            view.enableFollowButton(true);
+            onFinish();
         }
 
         @Override
-        public void handleFailure(String s) {
-            super.handleFailure(s);
-            view.enableFollowButton(true);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            super.handleException(ex);
+        public void onFinish() {
             view.enableFollowButton(true);
         }
 

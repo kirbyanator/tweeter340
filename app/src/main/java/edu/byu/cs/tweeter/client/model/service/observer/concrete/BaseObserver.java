@@ -16,10 +16,16 @@ public abstract class BaseObserver<T extends Presenter<?>>{
 
     public void handleFailure(String message) {
         presenter.getView().displayMessage("Failed to " + getErrorMessage() + ": " + message);
+        onFinish();
     }
 
     public void handleException(Exception exception) {
         presenter.getView().displayMessage("Failed to " + getErrorMessage() + " because of exception " + exception.getMessage());
+        onFinish();
+    }
+
+    public void onFinish(){
+
     }
 
 
