@@ -3,8 +3,8 @@ package edu.byu.cs.tweeter.client.presenter;
 import java.util.List;
 
 import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.PagedTaskObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.UserObserver;
 import edu.byu.cs.tweeter.client.presenter.view.PagedView;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -34,9 +34,6 @@ public abstract class PagedPresenter<T> extends Presenter<PagedView<T>> {
         return isLoading;
     }
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
 
     public void loadMoreItems(User user) {
         if (!isLoading) {

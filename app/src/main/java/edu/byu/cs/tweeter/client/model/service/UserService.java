@@ -8,8 +8,8 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.AuthenticationTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetUserHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
-import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.SimpleObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.UserObserver;
 
 public class UserService extends TaskExecutor{
 

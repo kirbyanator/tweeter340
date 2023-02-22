@@ -1,7 +1,7 @@
 package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.UserObserver;
 import edu.byu.cs.tweeter.client.presenter.view.AuthenticationView;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -25,7 +25,7 @@ public abstract class AuthenticationPresenter extends Presenter<AuthenticationVi
 
         @Override
         public void handleException(Exception ex) {
-            view.displayMessage("Failed to register because of exception: " + ex.getMessage());
+            view.displayMessage("Failed to " + getPresenterType() + " because of exception: " + ex.getMessage());
         }
     }
 

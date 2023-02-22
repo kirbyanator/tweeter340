@@ -7,40 +7,20 @@ import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.client.model.service.observer.BooleanObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.CountObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.BooleanObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.CountObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.SimpleObserver;
+import edu.byu.cs.tweeter.client.presenter.view.MainView;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class MainActivityPresenter {
-    
+public class MainActivityPresenter extends Presenter<MainView> {
 
-    public interface View {
+    private final FollowService followService;
+    private final UserService userService;
+    private final StatusService statusService;
 
-        void updateFollowButton(boolean isFollower);
-
-        void displayMessage(String s);
-
-        void updateSelectedUserFollowingAndFollowers();
-
-        void enableFollowButton(boolean b);
-
-        void logoutUser();
-
-        void postSuccessful();
-
-        void setFollowersCount(int count);
-
-        void setFollowingCount(int count);
-    }
-
-    private View view;
-    private FollowService followService;
-    private UserService userService;
-    private StatusService statusService;
-
-    public MainActivityPresenter(View view) {
+    public MainActivityPresenter(MainView view) {
         this.view = view;
         this.followService = new FollowService();
         this.userService = new UserService();
@@ -55,7 +35,6 @@ public class MainActivityPresenter {
 
         @Override
         public void handleSuccess(boolean isFollower) {
-
             view.updateFollowButton(!isFollower);
         }
 

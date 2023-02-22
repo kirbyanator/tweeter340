@@ -8,9 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 
 import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
 import edu.byu.cs.tweeter.client.presenter.view.AuthenticationView;
-import edu.byu.cs.tweeter.model.domain.User;
 
 public class RegisterPresenter extends AuthenticationPresenter{
 

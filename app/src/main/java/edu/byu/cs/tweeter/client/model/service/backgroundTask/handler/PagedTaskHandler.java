@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PagedTask;
-import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.PagedTaskObserver;
 
 public class PagedTaskHandler<T> extends BackgroundTaskHandler<PagedTaskObserver<T>> {
     public PagedTaskHandler(PagedTaskObserver<T> observer) {

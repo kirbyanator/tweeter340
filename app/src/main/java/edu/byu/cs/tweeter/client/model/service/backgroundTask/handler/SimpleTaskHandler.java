@@ -2,7 +2,7 @@ package edu.byu.cs.tweeter.client.model.service.backgroundTask.handler;
 
 import android.os.Bundle;
 
-import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.SimpleObserver;
 
 public class SimpleTaskHandler extends BackgroundTaskHandler<SimpleObserver>{
 

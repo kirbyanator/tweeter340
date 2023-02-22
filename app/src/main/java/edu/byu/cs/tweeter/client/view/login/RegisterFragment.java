@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.client.cache.Cache;
-import edu.byu.cs.tweeter.client.presenter.AuthenticationPresenter;
 import edu.byu.cs.tweeter.client.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.client.presenter.view.AuthenticationView;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;

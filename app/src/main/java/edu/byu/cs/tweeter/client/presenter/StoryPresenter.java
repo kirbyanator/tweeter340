@@ -7,7 +7,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class StoryPresenter extends PagedPresenter<Status>{
 
-    private StatusService statusService;
+    private final StatusService statusService;
 
     public StoryPresenter(PagedView<Status> view){
         super();

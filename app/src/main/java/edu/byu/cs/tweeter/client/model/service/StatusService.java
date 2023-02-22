@@ -6,8 +6,8 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetStoryTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PagedTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
-import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.PagedTaskObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 

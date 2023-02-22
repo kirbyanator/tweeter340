@@ -15,10 +15,10 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.CountTaskH
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollowerHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PagedTaskHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleTaskHandler;
-import edu.byu.cs.tweeter.client.model.service.observer.BooleanObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.CountObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.PagedTaskObserver;
-import edu.byu.cs.tweeter.client.model.service.observer.SimpleObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.BooleanObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.CountObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.PagedTaskObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService extends TaskExecutor {

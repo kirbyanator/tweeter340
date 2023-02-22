@@ -27,6 +27,7 @@ import java.time.LocalTime;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.presenter.MainActivityPresenter;
+import edu.byu.cs.tweeter.client.presenter.view.MainView;
 import edu.byu.cs.tweeter.client.view.login.LoginActivity;
 import edu.byu.cs.tweeter.client.view.login.StatusDialogFragment;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -34,7 +35,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements StatusDialogFragment.Observer, MainActivityPresenter.View {
+public class MainActivity extends AppCompatActivity implements StatusDialogFragment.Observer, MainView {
 
     private static final String LOG_TAG = "MainActivity";
 

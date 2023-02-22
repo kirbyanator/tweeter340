@@ -3,7 +3,7 @@ package edu.byu.cs.tweeter.client.model.service.backgroundTask.handler;
 import android.os.Bundle;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetUserTask;
-import edu.byu.cs.tweeter.client.model.service.observer.UserObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.interfaces.UserObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 /**
