@@ -3,7 +3,7 @@ package edu.byu.cs.tweeter.client.presenter;
 import java.util.List;
 
 import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.client.model.service.observer.concrete.BaseObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.BaseObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.interfaces.PagedTaskObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.interfaces.UserObserver;
 import edu.byu.cs.tweeter.client.presenter.view.PagedView;

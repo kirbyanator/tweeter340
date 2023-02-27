@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.client.model.service.observer.concrete;
+package edu.byu.cs.tweeter.client.model.service.observer;
 
 import edu.byu.cs.tweeter.client.model.service.observer.interfaces.ServiceObserver;
 import edu.byu.cs.tweeter.client.presenter.Presenter;

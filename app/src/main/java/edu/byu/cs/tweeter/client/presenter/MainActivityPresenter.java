@@ -7,12 +7,11 @@ import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
-import edu.byu.cs.tweeter.client.model.service.observer.concrete.BaseObserver;
+import edu.byu.cs.tweeter.client.model.service.observer.BaseObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.interfaces.BooleanObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.interfaces.CountObserver;
 import edu.byu.cs.tweeter.client.model.service.observer.interfaces.SimpleObserver;
 import edu.byu.cs.tweeter.client.presenter.view.MainView;
-import edu.byu.cs.tweeter.client.presenter.view.View;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
