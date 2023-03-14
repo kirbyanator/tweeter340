@@ -151,11 +151,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
         startActivity(intent);
     }
 
-    @Override
-    public void postSuccessful() {
-        postingToast.cancel();
-        Toast.makeText(MainActivity.this, "Successfully Posted!", Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public void setFollowersCount(int count) {
@@ -169,9 +164,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
     @Override
     public void onStatusPosted(String post) {
-        postingToast = Toast.makeText(this, "Posting Status...", Toast.LENGTH_LONG);
-        postingToast.show();
-
         try {
             presenter.postStatus(post);
         } catch (Exception ex) {

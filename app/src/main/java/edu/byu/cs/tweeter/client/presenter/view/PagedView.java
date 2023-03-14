@@ -8,5 +8,4 @@ public interface PagedView<T> extends View{
     void addUser(User user);
     void addMoreItems(List<T> items);
     void setLoadingFooter(boolean value);
-    void displayMessage(String message);
 }

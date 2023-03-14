@@ -5,7 +5,6 @@ public interface MainView extends View{
     void updateSelectedUserFollowingAndFollowers();
     void enableFollowButton(boolean b);
     void logoutUser();
-    void postSuccessful();
     void setFollowersCount(int count);
     void setFollowingCount(int count);
 }

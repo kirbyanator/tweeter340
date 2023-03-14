@@ -1,5 +1,7 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,19 +19,25 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainActivityPresenter extends Presenter<MainView> {
 
-    private final FollowService followService;
-    private final UserService userService;
-    private final StatusService statusService;
 
     public MainActivityPresenter(MainView view) {
         this.view = view;
-        this.followService = new FollowService();
-        this.userService = new UserService();
-        this.statusService = new StatusService();
+    }
+
+    public FollowService followServiceFactory(){
+        return new FollowService();
+    }
+
+    public UserService userServiceFactory(){
+        return new UserService();
+    }
+
+    public StatusService statusServiceFactory(){
+        return new StatusService();
     }
 
     public void checkIsFollower(User selectedUser) {
-        followService.checkIsFollower(selectedUser, new IsFollowerObserver(this));
+        followServiceFactory().checkIsFollower(selectedUser, new IsFollowerObserver(this));
     }
 
     private class IsFollowerObserver extends BaseObserver<MainActivityPresenter> implements BooleanObserver {
@@ -52,7 +60,7 @@ public class MainActivityPresenter extends Presenter<MainView> {
 
 
     public void unfollowUser(User selectedUser) {
-        followService.unfollowUser(selectedUser, new UnfollowObserver(this));
+        followServiceFactory().unfollowUser(selectedUser, new UnfollowObserver(this));
     }
 
     private class UnfollowObserver extends BaseObserver<MainActivityPresenter> implements SimpleObserver{
@@ -82,7 +90,7 @@ public class MainActivityPresenter extends Presenter<MainView> {
 
 
     public void followUser(User selectedUser) {
-        followService.followUser(selectedUser, new FollowObserver(this));
+        followServiceFactory().followUser(selectedUser, new FollowObserver(this));
     }
 
     private class FollowObserver extends BaseObserver<MainActivityPresenter> implements SimpleObserver{
@@ -111,7 +119,7 @@ public class MainActivityPresenter extends Presenter<MainView> {
 
 
     public void logOut() {
-        userService.logout(new LogoutObserver(this));
+        userServiceFactory().logout(new LogoutObserver(this));
     }
 
     private class LogoutObserver extends BaseObserver<MainActivityPresenter> implements SimpleObserver {
@@ -133,11 +141,12 @@ public class MainActivityPresenter extends Presenter<MainView> {
     }
 
     public void postStatus(String post) {
+        view.displayMessage("Posting status...");
         Status newStatus = new Status(post, Cache.getInstance().getCurrUser(), System.currentTimeMillis(), parseURLs(post), parseMentions(post));
-        statusService.postStatus(newStatus, new PostStatusObserver(this));
+        statusServiceFactory().postStatus(newStatus, new PostStatusObserver(this));
     }
 
-    private class PostStatusObserver extends BaseObserver<MainActivityPresenter> implements SimpleObserver{
+    public class PostStatusObserver extends BaseObserver<MainActivityPresenter> implements SimpleObserver{
 
         public PostStatusObserver(MainActivityPresenter presenter) {
             super(presenter);
@@ -145,7 +154,7 @@ public class MainActivityPresenter extends Presenter<MainView> {
 
         @Override
         public void handleSuccess() {
-            view.postSuccessful();
+            view.displayMessage("Successfully Posted!");
         }
 
 
@@ -213,7 +222,7 @@ public class MainActivityPresenter extends Presenter<MainView> {
     }
 
     public void getFollowersCount(User user){
-        followService.getFollowerCount(user, new FollowerCountObserver(this));
+        followServiceFactory().getFollowerCount(user, new FollowerCountObserver(this));
     }
 
     private class FollowerCountObserver extends BaseObserver<MainActivityPresenter> implements CountObserver {
@@ -234,7 +243,7 @@ public class MainActivityPresenter extends Presenter<MainView> {
     }
     
     public void getFollowingCount(User selectedUser) {
-        followService.getFollowingCount(selectedUser, new FollowingCountObserver(this));
+        followServiceFactory().getFollowingCount(selectedUser, new FollowingCountObserver(this));
     }
     
     private class FollowingCountObserver extends BaseObserver<MainActivityPresenter> implements CountObserver{

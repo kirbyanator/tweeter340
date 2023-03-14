@@ -4,7 +4,7 @@ import edu.byu.cs.tweeter.client.model.service.observer.interfaces.ServiceObserv
 import edu.byu.cs.tweeter.client.presenter.Presenter;
 import edu.byu.cs.tweeter.client.presenter.view.View;
 
-public abstract class BaseObserver<T extends Presenter<?>>{
+public abstract class BaseObserver<T extends Presenter<?>> implements ServiceObserver{
 
 
     protected T presenter;
